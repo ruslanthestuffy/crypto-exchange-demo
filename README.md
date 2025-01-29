@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# 🚀 Crypto Exchange Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a **demo** cryptocurrency exchange app built with **React, TypeScript, MobX, and Material UI**.  
+It allows users to **convert between different cryptocurrencies in real-time** using data from the **CoinMarketCap API**.
 
-Currently, two official plugins are available:
+⚠️ **Disclaimer:**  
+This project is **for demonstration purposes only**. It does **not process real transactions** and should **not be used for actual trading**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
+✅ Select from **real cryptocurrency pairs**  
+✅ Instant **exchange rate updates**  
+✅ Search currencies by **symbol (`BTC`) or name (`Bitcoin`)**
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
+- **React + Vite** (Frontend Framework)
+- **TypeScript** (Strongly typed code)
+- **MobX** (State management)
+- **Material UI** (UI Components)
+- **CoinMarketCap API** (Live exchange rates)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 💡 How It Works
+- 1️⃣ Select the “From” and “To” currencies from the dropdown.
+- 2️⃣ Enter an amount in either field; the other field updates automatically.
+- 3️⃣ Click swap 🔄 to reverse the currencies.
 
-- Configure the top-level `parserOptions` property like this:
+### 📜 License
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+This project is open-source but provided as is, with no warranties.
+Feel free to fork, modify, and use it for learning purposes.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+📌 Made by: Ruslan Makaev (@ruslanthestuffy)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🚀 Live Demo
+🔗 **[Try it here!](https://crypto-exchange-demo-only.netlify.app/)**
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## 🛠️ Installation & Setup
+To run this project locally:
+```sh
+# Clone the repository
+git clone https://github.com/yourusername/crypto-exchange-demo.git
+
+# Navigate into the project folder
+cd crypto-exchange-demo
+
+# Install dependencies
+npm install
+
+# Create a `.env` file and add your CoinMarketCap API key
+echo "VITE_COINMARKETCAP_API_KEY=your-api-key-here" > .env
+
+# Start the development server
+npm run dev
 ```
