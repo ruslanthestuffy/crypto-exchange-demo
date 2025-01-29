@@ -5,7 +5,7 @@ interface CurrencyDropdownProps {
   label: string;
   value?: string;
   onChange: (currency?: string) => void;
-  options: string[];
+  options: { symbol: string; name: string }[];
   loading: boolean;
 }
 
@@ -14,8 +14,9 @@ const CurrencyDropdown = observer(
     return (
       <Autocomplete
         options={options}
-        value={value ?? ''}
-        onChange={(_, newValue) => onChange(newValue || undefined)}
+        getOptionLabel={(option) => `${option.symbol} - ${option.name}`}
+        value={options.find((o) => o.symbol === value) ?? undefined}
+        onChange={(_, newValue) => onChange(newValue?.symbol || undefined)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -29,10 +30,15 @@ const CurrencyDropdown = observer(
           />
         )}
         disableClearable
-        filterOptions={(opts, { inputValue }) =>
-          opts.filter((opt) => opt.toLowerCase().includes(inputValue.toLowerCase()))
-        }
+        filterOptions={(opts, { inputValue }) => {
+          const query = inputValue.trim().toLowerCase();
+          return opts.filter(
+            (opt) =>
+              opt.symbol.toLowerCase().includes(query) || opt.name.toLowerCase().includes(query)
+          );
+        }}
         disabled={loading}
+        fullWidth
       />
     );
   }

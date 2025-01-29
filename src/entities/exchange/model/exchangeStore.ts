@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { fromPromise } from 'mobx-utils';
 import { fetchAvailableCurrencies, fetchExchangeRate } from '@shared/api/exchangeApi';
 
@@ -13,7 +13,12 @@ class ExchangeStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.availableCurrencies.then((data) => {
+    this.initializeCurrencies();
+  }
+
+  async initializeCurrencies() {
+    const data = await this.availableCurrencies;
+    runInAction(() => {
       if (data.length >= 2) {
         this.fromCurrency = data[0].symbol;
         this.toCurrency = data[1].symbol;
@@ -22,17 +27,20 @@ class ExchangeStore {
     });
   }
 
-  setFromCurrency = (currency: string) => {
+  setFromCurrency = (currency?: string) => {
+    if (!currency || currency === this.toCurrency) return;
     this.fromCurrency = currency;
     this.updateExchangeRate();
   };
 
-  setToCurrency = (currency: string) => {
+  setToCurrency = (currency?: string) => {
+    if (!currency || currency === this.fromCurrency) return;
     this.toCurrency = currency;
     this.updateExchangeRate();
   };
 
   setFromAmount = (value: number) => {
+    if (value < 0) return;
     this.fromAmount = value;
     if (this.exchangeRate) {
       this.toAmount = parseFloat((value * this.exchangeRate).toFixed(6));
@@ -40,23 +48,30 @@ class ExchangeStore {
   };
 
   setToAmount = (value: number) => {
+    if (value < 0) return;
     this.toAmount = value;
     if (this.exchangeRate) {
       this.fromAmount = parseFloat((value / this.exchangeRate).toFixed(6));
     }
   };
 
+  swapCurrencies = () => {
+    if (!this.fromCurrency || !this.toCurrency) return;
+    [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
+    this.updateExchangeRate();
+  };
+
   updateExchangeRate = async () => {
-    if (!this.fromCurrency || !this.toCurrency) return 0;
+    if (!this.fromCurrency || !this.toCurrency) return;
     this.isLoadingRate = true;
-
     const rate = await fetchExchangeRate(this.fromCurrency, this.toCurrency);
-
-    if (rate) {
-      this.exchangeRate = rate;
-      this.toAmount = parseFloat((this.fromAmount * rate).toFixed(6));
-    }
-    this.isLoadingRate = false;
+    runInAction(() => {
+      if (rate) {
+        this.exchangeRate = rate;
+        this.toAmount = parseFloat((this.fromAmount * rate).toFixed(6));
+      }
+      this.isLoadingRate = false;
+    });
   };
 }
 

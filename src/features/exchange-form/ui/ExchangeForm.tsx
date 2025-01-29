@@ -6,12 +6,6 @@ import { Box, Button, CircularProgress, IconButton, Paper, Typography } from '@m
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 const ExchangeForm = observer(() => {
-  const handleSwapCurrencies = () => {
-    const temp = exchangeStore.fromCurrency;
-    exchangeStore.setFromCurrency(exchangeStore.toCurrency!);
-    exchangeStore.setToCurrency(temp!);
-  };
-
   if (exchangeStore.availableCurrencies.state === 'pending') {
     return <CircularProgress sx={{ margin: 'auto' }} />;
   }
@@ -38,7 +32,7 @@ const ExchangeForm = observer(() => {
         label="From"
         value={exchangeStore.fromCurrency}
         onChange={exchangeStore.setFromCurrency}
-        options={currencyOptions.map((c) => c.symbol.toUpperCase())}
+        options={currencyOptions}
         loading={exchangeStore.isLoadingRate}
       />
       <AmountInput
@@ -49,7 +43,7 @@ const ExchangeForm = observer(() => {
 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <IconButton
-          onClick={handleSwapCurrencies}
+          onClick={exchangeStore.swapCurrencies}
           sx={{ border: '1px solid', borderRadius: '50%', width: 50, height: 50 }}
         >
           <SwapHorizIcon fontSize="large" />
@@ -60,7 +54,7 @@ const ExchangeForm = observer(() => {
         label="To"
         value={exchangeStore.toCurrency}
         onChange={exchangeStore.setToCurrency}
-        options={currencyOptions.map((c) => c.symbol.toUpperCase())}
+        options={currencyOptions}
         loading={exchangeStore.isLoadingRate}
       />
       <AmountInput
