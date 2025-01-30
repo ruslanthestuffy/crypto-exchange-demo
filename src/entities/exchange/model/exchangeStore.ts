@@ -18,6 +18,7 @@ class ExchangeStore {
 
   async initializeCurrencies() {
     const data = await this.availableCurrencies;
+
     runInAction(() => {
       if (data.length >= 2) {
         this.fromCurrency = data[0].symbol;
@@ -64,6 +65,7 @@ class ExchangeStore {
   updateExchangeRate = async () => {
     if (!this.fromCurrency || !this.toCurrency) return;
     this.isLoadingRate = true;
+
     const rate = await fetchExchangeRate(this.fromCurrency, this.toCurrency);
     runInAction(() => {
       if (rate) {
