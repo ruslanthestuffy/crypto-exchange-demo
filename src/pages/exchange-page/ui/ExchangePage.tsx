@@ -1,8 +1,9 @@
 import { Container, Typography } from '@mui/material';
 import ExchangeForm from '@features/exchange-form/ui/ExchangeForm.tsx';
 import { exchangeStore } from '@entities/exchange/model/exchangeStore.ts';
+import { observer } from 'mobx-react-lite';
 
-const ExchangePage = () => {
+const ExchangePage = observer(() => {
   return (
     <Container
       sx={{
@@ -39,6 +40,6 @@ const ExchangePage = () => {
       )}
     </Container>
   );
-};
+});
 
 export default ExchangePage;
