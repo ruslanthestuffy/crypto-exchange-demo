@@ -8,7 +8,7 @@ import ExchangeRateDisplay from '@features/exchange-form/ui/ExchangeRateDisplay.
 
 const ExchangeForm = observer(() => {
   if (exchangeStore.availableCurrencies.state === 'pending') {
-    return <CircularProgress sx={{ margin: 'auto' }} />;
+    return <CircularProgress sx={{ margin: '0 auto' }} />;
   }
 
   if (exchangeStore.availableCurrencies.state === 'rejected') {

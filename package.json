@@ -15,7 +15,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.1",
-    "@mui/material": "^6.4.1",
+    "@mui/material": "^6.4.2",
     "axios": "^1.7.9",
     "lodash": "^4.17.21",
     "mobx": "^6.13.5",
@@ -24,6 +24,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-number-format": "^5.4.3",
+    "react-window": "^1.8.11",
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
@@ -33,6 +34,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
