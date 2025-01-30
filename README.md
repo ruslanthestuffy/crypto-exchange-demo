@@ -47,6 +47,7 @@ npm install
 
 # Create a `.env` file and add your CoinMarketCap API key
 echo "VITE_COINMARKETCAP_API_KEY=your-api-key-here" > .env
+echo "VITE_COINMARKETCAP_API_URL=https://pro-api.coinmarketcap.com/v1" > .env
 
 # Start the development server
 npm run dev
