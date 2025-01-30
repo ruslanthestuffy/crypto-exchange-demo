@@ -2,7 +2,8 @@
 
 [[redirects]]
   # Proxy all API calls to the backend
-  from = "/api"
-  to = "https://pro-api.coinmarketcap.com/v1" # todo: take it from env
+  from = "/api/*"
+  to = "https://pro-api.coinmarketcap.com/v1/:splat"
   status = 200
   force = true
+  headers = {X-From = "Netlify"}
