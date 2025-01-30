@@ -1,22 +1,31 @@
 import { observer } from 'mobx-react-lite';
-import { Autocomplete, CircularProgress, TextField } from '@mui/material';
+import { Autocomplete, TextField, Typography } from '@mui/material';
 
 interface CurrencyDropdownProps {
-  label: string;
+  label?: string;
   value?: string;
   onChange: (currency?: string) => void;
   options: { symbol: string; name: string }[];
-  loading: boolean;
+  isLoading: boolean;
 }
 
 const CurrencyDropdown = observer(
-  ({ label, value, onChange, options, loading }: CurrencyDropdownProps) => {
+  ({ label, value, onChange, options, isLoading }: CurrencyDropdownProps) => {
     return (
       <Autocomplete
+        fullWidth
+        sx={{ maxWidth: 220 }}
         options={options}
-        getOptionLabel={(option) => `${option.symbol} - ${option.name}`}
         value={options.find((o) => o.symbol === value) ?? undefined}
         onChange={(_, newValue) => onChange(newValue?.symbol || undefined)}
+        getOptionLabel={(option) => `${option.symbol} - ${option.name}`}
+        renderOption={(props, option) => {
+          return (
+            <Typography {...props} key={option.name + option.symbol}>
+              {option.symbol} - {option.name}
+            </Typography>
+          );
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -24,21 +33,27 @@ const CurrencyDropdown = observer(
             slotProps={{
               input: {
                 ...params.InputProps,
-                endAdornment: loading ? <CircularProgress size={20} /> : null,
               },
             }}
           />
         )}
         disableClearable
-        filterOptions={(opts, { inputValue }) => {
-          const query = inputValue.trim().toLowerCase();
-          return opts.filter(
-            (opt) =>
-              opt.symbol.toLowerCase().includes(query) || opt.name.toLowerCase().includes(query)
-          );
-        }}
-        disabled={loading}
-        fullWidth
+        autoHighlight
+        // filterOptions={(opts, { inputValue }) => {
+        //   const query = inputValue.trim().toLowerCase();
+        //
+        //   if (!query) {
+        //     return options;
+        //   }
+        //
+        //   const filterredOptions = opts.filter(
+        //     (opt) =>
+        //       opt.symbol.toLowerCase().includes(query) || opt.name.toLowerCase().includes(query)
+        //   );
+        //
+        //   return filterredOptions;
+        // }}
+        disabled={isLoading}
       />
     );
   }

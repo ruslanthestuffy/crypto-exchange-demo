@@ -2,8 +2,9 @@ import { observer } from 'mobx-react-lite';
 import { exchangeStore } from '@entities/exchange/model/exchangeStore';
 import CurrencyDropdown from './CurrencyDropdown';
 import AmountInput from './AmountInput';
-import { Box, Button, CircularProgress, IconButton, Paper, Typography } from '@mui/material';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { Box, CircularProgress, IconButton, Paper, Stack } from '@mui/material';
+import { SwapVert } from '@mui/icons-material';
+import ExchangeRateDisplay from '@features/exchange-form/ui/ExchangeRateDisplay.tsx';
 
 const ExchangeForm = observer(() => {
   if (exchangeStore.availableCurrencies.state === 'pending') {
@@ -21,61 +22,54 @@ const ExchangeForm = observer(() => {
       elevation={3}
       sx={{
         padding: 3,
-        maxWidth: 500,
-        margin: 'auto',
+        width: '100%',
+        maxWidth: 600,
+        margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
       }}
     >
-      <CurrencyDropdown
-        label="From"
-        value={exchangeStore.fromCurrency}
-        onChange={exchangeStore.setFromCurrency}
-        options={currencyOptions}
-        loading={exchangeStore.isLoadingRate}
-      />
-      <AmountInput
-        value={exchangeStore.fromAmount}
-        onChange={exchangeStore.setFromAmount}
-        loading={exchangeStore.isLoadingRate}
-      />
+      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'}>
+        <AmountInput
+          label={'You send'}
+          value={exchangeStore.fromAmount}
+          onChange={exchangeStore.setFromAmount}
+          isLoading={exchangeStore.isLoadingRate}
+        />
+        <CurrencyDropdown
+          value={exchangeStore.fromCurrency}
+          onChange={exchangeStore.setFromCurrency}
+          options={currencyOptions}
+          isLoading={exchangeStore.isLoadingRate}
+        />
+      </Stack>
 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <IconButton
           onClick={exchangeStore.swapCurrencies}
           sx={{ border: '1px solid', borderRadius: '50%', width: 50, height: 50 }}
         >
-          <SwapHorizIcon fontSize="large" />
+          <SwapVert fontSize="large" />
         </IconButton>
       </Box>
 
-      <CurrencyDropdown
-        label="To"
-        value={exchangeStore.toCurrency}
-        onChange={exchangeStore.setToCurrency}
-        options={currencyOptions}
-        loading={exchangeStore.isLoadingRate}
-      />
-      <AmountInput
-        value={exchangeStore.toAmount}
-        onChange={exchangeStore.setToAmount}
-        loading={exchangeStore.isLoadingRate}
-      />
+      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'}>
+        <AmountInput
+          label={'You get'}
+          value={exchangeStore.toAmount}
+          onChange={exchangeStore.setToAmount}
+          isLoading={exchangeStore.isLoadingRate}
+        />
+        <CurrencyDropdown
+          value={exchangeStore.toCurrency}
+          onChange={exchangeStore.setToCurrency}
+          options={currencyOptions}
+          isLoading={exchangeStore.isLoadingRate}
+        />
+      </Stack>
 
-      <Box sx={{ textAlign: 'center', mt: 1 }}>
-        <Typography variant="body1" color="textSecondary">
-          Estimated rate:
-        </Typography>
-        <Typography variant="h6" fontWeight="bold">
-          1 {exchangeStore.fromCurrency} ≈ {exchangeStore.exchangeRate?.toFixed(6) || '...'}{' '}
-          {exchangeStore.toCurrency}
-        </Typography>
-      </Box>
-
-      <Button variant="contained" fullWidth disabled={exchangeStore.isLoadingRate}>
-        Exchange
-      </Button>
+      <ExchangeRateDisplay />
     </Paper>
   );
 });
