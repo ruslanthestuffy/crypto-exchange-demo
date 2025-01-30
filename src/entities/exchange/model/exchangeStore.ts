@@ -3,8 +3,8 @@ import { fromPromise } from 'mobx-utils';
 import { fetchAvailableCurrencies, fetchExchangeRate } from '@shared/api/exchangeApi';
 
 class ExchangeStore {
-  fromCurrency?: string;
-  toCurrency?: string;
+  fromCurrency: string | null = null;
+  toCurrency: string | null = null;
   fromAmount = 1;
   toAmount = 0;
   availableCurrencies = fromPromise(fetchAvailableCurrencies());
@@ -28,14 +28,20 @@ class ExchangeStore {
     });
   }
 
-  setFromCurrency = (currency?: string) => {
-    if (!currency || currency === this.toCurrency) return;
+  setFromCurrency = (currency: string | null) => {
+    if (!currency) return;
+    if (currency === this.toCurrency) {
+      this.toCurrency = null;
+    }
     this.fromCurrency = currency;
     this.updateExchangeRate();
   };
 
-  setToCurrency = (currency?: string) => {
-    if (!currency || currency === this.fromCurrency) return;
+  setToCurrency = (currency: string | null) => {
+    if (!currency) return;
+    if (currency === this.fromCurrency) {
+      this.fromCurrency = null;
+    }
     this.toCurrency = currency;
     this.updateExchangeRate();
   };

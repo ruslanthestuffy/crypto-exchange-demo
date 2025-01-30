@@ -16,6 +16,7 @@ const ExchangeForm = observer(() => {
   }
 
   const currencyOptions = exchangeStore.availableCurrencies.value || [];
+  const isBothCurrencySelected = exchangeStore.fromCurrency && exchangeStore.toCurrency;
 
   return (
     <Paper
@@ -36,6 +37,7 @@ const ExchangeForm = observer(() => {
           value={exchangeStore.fromAmount}
           onChange={exchangeStore.setFromAmount}
           isLoading={exchangeStore.isLoadingRate}
+          disabled={!isBothCurrencySelected}
         />
         <CurrencyDropdown
           value={exchangeStore.fromCurrency}
@@ -60,6 +62,7 @@ const ExchangeForm = observer(() => {
           value={exchangeStore.toAmount}
           onChange={exchangeStore.setToAmount}
           isLoading={exchangeStore.isLoadingRate}
+          disabled={!isBothCurrencySelected}
         />
         <CurrencyDropdown
           value={exchangeStore.toCurrency}

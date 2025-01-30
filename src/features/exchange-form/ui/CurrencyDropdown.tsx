@@ -10,8 +10,8 @@ interface CurrencyOption {
 
 interface CurrencyDropdownProps {
   label?: string;
-  value?: string;
-  onChange: (currency?: string) => void;
+  value: string | null;
+  onChange: (currency: string | null) => void;
   options: CurrencyOption[];
   isLoading: boolean;
 }
@@ -55,8 +55,9 @@ const CurrencyDropdown = observer(
         fullWidth
         sx={{ maxWidth: 220 }}
         options={options}
-        value={options.find((o) => o.symbol === value) ?? undefined}
-        onChange={(_, newValue) => onChange(newValue?.symbol || undefined)}
+        // @ts-ignore | null need to keep it controllable
+        value={options.find((o) => o.symbol === value) ?? null}
+        onChange={(_, newValue) => onChange(newValue?.symbol || null)}
         getOptionLabel={(option) => `${option.symbol} - ${option.name}`}
         disableClearable
         disabled={isLoading}
