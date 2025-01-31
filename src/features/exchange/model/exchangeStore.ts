@@ -25,14 +25,44 @@ class ExchangeStore {
     this.initializeCurrencies();
   }
 
+  updateSearchParams() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (this.fromCurrency) {
+      params.set('from', this.fromCurrency);
+    } else {
+      params.delete('from');
+    }
+
+    if (this.toCurrency) {
+      params.set('to', this.toCurrency);
+    } else {
+      params.delete('to');
+    }
+
+    window.history.replaceState(null, '', `?${params.toString()}`);
+  }
+
+  parseSearchParams() {
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get('from');
+    const to = params.get('to');
+    return { from, to };
+  }
+
   async initializeCurrencies() {
+    const { from, to } = this.parseSearchParams();
     const data = await this.availableCurrencies;
 
     runInAction(() => {
       if (data.length >= 2) {
-        this.fromCurrency = data[0].symbol;
-        this.toCurrency = data[1].symbol;
+        const validFrom = data.some((c) => c.symbol === from) ? from : data[0].symbol;
+        const validTo = data.some((c) => c.symbol === to) ? to : data[1].symbol;
+
+        this.fromCurrency = validFrom;
+        this.toCurrency = validTo;
         this.updateExchangeRate();
+        this.updateSearchParams();
       }
     });
   }
@@ -46,6 +76,7 @@ class ExchangeStore {
 
     this.fromCurrency = currency;
     this.updateExchangeRate();
+    this.updateSearchParams();
   };
 
   setToCurrency = (currency: string | null) => {
@@ -57,6 +88,7 @@ class ExchangeStore {
 
     this.toCurrency = currency;
     this.updateExchangeRate();
+    this.updateSearchParams();
   };
 
   setFromAmount = (value: number) => {
@@ -83,6 +115,7 @@ class ExchangeStore {
 
       [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
       this.updateExchangeRate();
+      this.updateSearchParams();
     });
   };
 
