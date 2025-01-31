@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { fromPromise } from 'mobx-utils';
-import { fetchAvailableCurrencies, fetchExchangeRate } from '@shared/api/exchangeApi';
+import { fetchAvailableCurrencies, fetchExchangeRate } from '@shared/api/exchangeApi.ts';
 import { debounce } from 'lodash';
 
 class ExchangeStore {

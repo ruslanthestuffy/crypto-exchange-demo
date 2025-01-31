@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
-import { MAX_DECIMALS } from '@features/exchange-form/config/amountInput.ts';
+import { MAX_DECIMALS } from '@features/exchange/config/amountInput.ts';
 import { memo } from 'react';
 
 interface AmountInputProps {

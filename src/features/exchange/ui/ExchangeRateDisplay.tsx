@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { exchangeStore } from '@entities/exchange/model/exchangeStore';
+import { exchangeStore } from '@features/exchange/model/exchangeStore.ts';
 import { Box, Typography } from '@mui/material';
-import { MAX_DECIMALS, MIN_VALUE } from '@features/exchange-form/config/amountInput.ts';
+import { MAX_DECIMALS, MIN_VALUE } from '@features/exchange/config/amountInput.ts';
 
 export function getExchangeRateDisplay(
   fromCurrency: string | null,

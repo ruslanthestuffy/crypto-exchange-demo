@@ -1,6 +1,6 @@
 import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
-import ExchangeForm from '@features/exchange-form/ui/ExchangeForm.tsx';
-import { exchangeStore } from '@entities/exchange/model/exchangeStore.ts';
+import ExchangeForm from '@features/exchange/ui/ExchangeForm.tsx';
+import { exchangeStore } from '@features/exchange/model/exchangeStore.ts';
 import { observer } from 'mobx-react-lite';
 import { CheckCircle } from '@mui/icons-material';
 
