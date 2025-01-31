@@ -82,10 +82,11 @@ class ExchangeStore {
   swapCurrencies!: () => void;
 
   updateExchangeRate = async () => {
-    if (!this.fromCurrency || !this.toCurrency) return;
-    this.isLoadingRate = true;
+    if (!this.fromCurrency || !this.toCurrency || this.isLoadingRate) return;
 
+    this.isLoadingRate = true;
     const rate = await fetchExchangeRate(this.fromCurrency, this.toCurrency);
+
     runInAction(() => {
       if (rate) {
         this.exchangeRate = rate;

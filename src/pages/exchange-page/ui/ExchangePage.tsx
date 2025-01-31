@@ -21,21 +21,15 @@ const ExchangePage = observer(() => {
       {exchangeStore.availableCurrencies.state !== 'pending' && (
         <>
           <Typography marginTop={2} variant={'h5'}>
-            Things I would do if had more than 8 hours
+            Total time spend: 8hrs
           </Typography>
+
           <ol>
-            <li>Adaptive for all devices</li>
-            <li>Test it properly, here are many corner cases</li>
-            <li>Add more debounce for clickable and mutable parts (reverse)</li>
-            <li>Dockerize repository for security and maintainability</li>
+            <li>Test it more for all corner cases</li>
             <li>Add API caching for rates and currencies</li>
-            <li>Write Unit Tests</li>
-            <li>Add interval refetch for rates (10-20 sec)</li>
             <li>Currencies pre-selection based on search query</li>
-            <li>Make better UI (current one is MUI default)</li>
-            <li>Improve error handling and add retry options</li>
+            <li>Change UI based on provided design</li>
             <li>Enhance UX with tooltips and util buttons (clear, max, etc..)</li>
-            <li>Ensure proper accessibility (ARIA, keyboard navigation)</li>
           </ol>
         </>
       )}

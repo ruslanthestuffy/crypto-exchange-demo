@@ -5,8 +5,11 @@ import AmountInput from './AmountInput';
 import { Box, CircularProgress, IconButton, Paper, Stack } from '@mui/material';
 import { SwapVert } from '@mui/icons-material';
 import ExchangeRateDisplay from '@features/exchange-form/ui/ExchangeRateDisplay.tsx';
+import { useInterval } from 'usehooks-ts';
 
 const ExchangeForm = observer(() => {
+  useInterval(exchangeStore.updateExchangeRate, 200 * 1000);
+
   if (exchangeStore.availableCurrencies.state === 'pending') {
     return <CircularProgress sx={{ margin: '0 auto' }} />;
   }
