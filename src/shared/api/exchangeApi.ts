@@ -28,13 +28,6 @@ export const fetchAvailableCurrencies = async (): Promise<CryptoCurrency[]> => {
   try {
     const response = await api.get('/cryptocurrency/map');
 
-    console.log(response);
-    if (response.cached) {
-      console.log('Returning cached cryptocurrency list');
-    } else {
-      console.log('Fetching fresh cryptocurrency list');
-    }
-
     return response.data.data.map((coin: { id: number; symbol: string; name: string }) => ({
       id: coin.id.toString(),
       symbol: coin.symbol,
