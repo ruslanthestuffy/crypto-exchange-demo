@@ -22,18 +22,24 @@ const ExchangeForm = observer(() => {
     <Paper
       elevation={3}
       sx={{
-        padding: 3,
+        p: { xs: 2, sm: 3 },
+        mt: 10,
         width: '100%',
-        maxWidth: 600,
-        margin: '0 auto',
+        maxWidth: { xs: '100%', md: 600 },
+        margin: { md: '0 auto' },
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
       }}
     >
-      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'}>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1}
+        justifyContent="center"
+        alignItems="center"
+      >
         <AmountInput
-          label={'You send'}
+          label="You send"
           value={exchangeStore.fromAmount}
           onChange={exchangeStore.setFromAmount}
           isLoading={exchangeStore.isLoadingRate}
@@ -50,15 +56,25 @@ const ExchangeForm = observer(() => {
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <IconButton
           onClick={exchangeStore.swapCurrencies}
-          sx={{ border: '1px solid', borderRadius: '50%', width: 50, height: 50 }}
+          sx={{
+            border: '1px solid',
+            borderRadius: '50%',
+            width: 50,
+            height: 50,
+          }}
         >
           <SwapVert fontSize="large" />
         </IconButton>
       </Box>
 
-      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'}>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1}
+        justifyContent="center"
+        alignItems="center"
+      >
         <AmountInput
-          label={'You get'}
+          label="You get"
           value={exchangeStore.toAmount}
           onChange={exchangeStore.setToAmount}
           isLoading={exchangeStore.isLoadingRate}

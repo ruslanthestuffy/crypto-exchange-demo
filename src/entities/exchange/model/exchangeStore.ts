@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { fromPromise } from 'mobx-utils';
 import { fetchAvailableCurrencies, fetchExchangeRate } from '@shared/api/exchangeApi';
+import { debounce } from 'lodash';
 
 class ExchangeStore {
   fromCurrency: string | null = null;
@@ -12,13 +13,20 @@ class ExchangeStore {
   isLoadingRate = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      swapCurrencies: false,
+    });
+
+    this.swapCurrencies = debounce(this._swapCurrencies, 300, {
+      leading: true,
+      trailing: false,
+    });
+
     this.initializeCurrencies();
   }
 
   async initializeCurrencies() {
     const data = await this.availableCurrencies;
-
     runInAction(() => {
       if (data.length >= 2) {
         this.fromCurrency = data[0].symbol;
@@ -62,11 +70,16 @@ class ExchangeStore {
     }
   };
 
-  swapCurrencies = () => {
-    if (!this.fromCurrency || !this.toCurrency) return;
-    [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
-    this.updateExchangeRate();
+  private _swapCurrencies = () => {
+    runInAction(() => {
+      if (!this.fromCurrency || !this.toCurrency) return;
+      [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
+      this.updateExchangeRate();
+    });
   };
+
+  // Debounced method (overwritten in constructor)
+  swapCurrencies!: () => void;
 
   updateExchangeRate = async () => {
     if (!this.fromCurrency || !this.toCurrency) return;

@@ -53,7 +53,9 @@ const CurrencyDropdown = observer(
     return (
       <Autocomplete
         fullWidth
-        sx={{ maxWidth: 220 }}
+        sx={{
+          maxWidth: { xs: '100%', sm: 220 },
+        }}
         options={options}
         // @ts-ignore | null need to keep it controllable
         value={options.find((o) => o.symbol === value) ?? null}
