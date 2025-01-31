@@ -26,7 +26,6 @@ const ExchangeForm = observer(() => {
       elevation={3}
       sx={{
         p: { xs: 2, sm: 3 },
-        mt: 10,
         width: '100%',
         maxWidth: { xs: '100%', md: 600 },
         margin: { md: '0 auto' },

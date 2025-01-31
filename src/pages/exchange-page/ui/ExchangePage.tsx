@@ -1,7 +1,8 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
 import ExchangeForm from '@features/exchange-form/ui/ExchangeForm.tsx';
 import { exchangeStore } from '@entities/exchange/model/exchangeStore.ts';
 import { observer } from 'mobx-react-lite';
+import { CheckCircle } from '@mui/icons-material';
 
 const ExchangePage = observer(() => {
   return (
@@ -14,24 +15,35 @@ const ExchangePage = observer(() => {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'auto',
+        pt: 10,
       }}
     >
       <ExchangeForm />
 
       {exchangeStore.availableCurrencies.state !== 'pending' && (
-        <>
-          <Typography marginTop={2} variant={'h5'}>
-            Total time spend: 8hrs
+        <Box sx={{ maxWidth: { xs: '100%', md: 600 }, mt: 6, p: 3, borderRadius: 2, boxShadow: 2 }}>
+          <Typography variant="h5" gutterBottom>
+            Implemented Features
           </Typography>
 
-          <ol>
-            <li>Test it more for all corner cases</li>
-            <li>Add API caching for rates and currencies</li>
-            <li>Currencies pre-selection based on search query</li>
-            <li>Change UI based on provided design</li>
-            <li>Enhance UX with tooltips and util buttons (clear, max, etc..)</li>
-          </ol>
-        </>
+          <List>
+            {[
+              'Input validations (leading zeros, negative values, min/max, customizable decimals)',
+              'Cached coins list API for optimized performance',
+              'Interval-based rate refetch',
+              'Debounced reverse coins button click',
+              'Virtualized coins list for better performance',
+              'Autocomplete coin search',
+              'Handling different rate amount cases',
+              'Currency preselection based on search query',
+            ].map((feature, index) => (
+              <ListItem key={index}>
+                <CheckCircle color="primary" sx={{ mr: 1 }} />
+                <ListItemText color={'black'} primary={feature} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       )}
     </Container>
   );
