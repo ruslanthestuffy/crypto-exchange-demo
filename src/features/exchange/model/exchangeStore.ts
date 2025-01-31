@@ -56,8 +56,17 @@ class ExchangeStore {
 
     runInAction(() => {
       if (data.length >= 2) {
-        const validFrom = data.some((c) => c.symbol === from) ? from : data[0].symbol;
-        const validTo = data.some((c) => c.symbol === to) ? to : data[1].symbol;
+        const upperFrom = from?.toUpperCase();
+        const upperTo = to?.toUpperCase();
+
+        const validFrom =
+          data.find((c) => c.symbol.toUpperCase() === upperFrom)?.symbol || data[0].symbol;
+        let validTo =
+          data.find((c) => c.symbol.toUpperCase() === upperTo)?.symbol || data[1].symbol;
+
+        if (validFrom === validTo) {
+          validTo = data.find((c) => c.symbol !== validFrom)?.symbol || data[1].symbol;
+        }
 
         this.fromCurrency = validFrom;
         this.toCurrency = validTo;
