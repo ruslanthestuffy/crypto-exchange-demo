@@ -43,6 +43,21 @@ const ExchangePage = observer(() => {
               </ListItem>
             ))}
           </List>
+
+          <Typography variant="h5" gutterBottom>
+            Notice
+          </Typography>
+
+          <List>
+            {[
+              'For more accuracy I would use strings and bigints as input values not number, but it would take more time to makes all the conversions',
+            ].map((feature, index) => (
+              <ListItem key={index}>
+                <CheckCircle color="primary" sx={{ mr: 1 }} />
+                <ListItemText color={'black'} primary={feature} />
+              </ListItem>
+            ))}
+          </List>
         </Box>
       )}
     </Container>
