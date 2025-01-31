@@ -27,6 +27,7 @@ class ExchangeStore {
 
   async initializeCurrencies() {
     const data = await this.availableCurrencies;
+
     runInAction(() => {
       if (data.length >= 2) {
         this.fromCurrency = data[0].symbol;
@@ -38,18 +39,22 @@ class ExchangeStore {
 
   setFromCurrency = (currency: string | null) => {
     if (!currency) return;
+
     if (currency === this.toCurrency) {
       this.toCurrency = null;
     }
+
     this.fromCurrency = currency;
     this.updateExchangeRate();
   };
 
   setToCurrency = (currency: string | null) => {
     if (!currency) return;
+
     if (currency === this.fromCurrency) {
       this.fromCurrency = null;
     }
+
     this.toCurrency = currency;
     this.updateExchangeRate();
   };
@@ -57,6 +62,7 @@ class ExchangeStore {
   setFromAmount = (value: number) => {
     if (value < 0) return;
     this.fromAmount = value;
+
     if (this.exchangeRate) {
       this.toAmount = parseFloat((value * this.exchangeRate).toFixed(6));
     }
@@ -65,6 +71,7 @@ class ExchangeStore {
   setToAmount = (value: number) => {
     if (value < 0) return;
     this.toAmount = value;
+
     if (this.exchangeRate) {
       this.fromAmount = parseFloat((value / this.exchangeRate).toFixed(6));
     }
@@ -73,6 +80,7 @@ class ExchangeStore {
   private _swapCurrencies = () => {
     runInAction(() => {
       if (!this.fromCurrency || !this.toCurrency) return;
+
       [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
       this.updateExchangeRate();
     });
@@ -92,6 +100,7 @@ class ExchangeStore {
         this.exchangeRate = rate;
         this.toAmount = parseFloat((this.fromAmount * rate).toFixed(6));
       }
+
       this.isLoadingRate = false;
     });
   };
