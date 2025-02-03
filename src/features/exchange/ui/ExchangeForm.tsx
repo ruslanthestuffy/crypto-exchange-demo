@@ -1,14 +1,26 @@
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { Box, CircularProgress, IconButton, Paper, Stack } from '@mui/material';
+import { SwapVert } from '@mui/icons-material';
+import { useInterval } from 'usehooks-ts';
 import { exchangeStore } from '@features/exchange/model/exchangeStore.ts';
 import CurrencyDropdown from './CurrencyDropdown.tsx';
 import AmountInput from './AmountInput.tsx';
-import { Box, CircularProgress, IconButton, Paper, Stack } from '@mui/material';
-import { SwapVert } from '@mui/icons-material';
 import ExchangeRateDisplay from '@features/exchange/ui/ExchangeRateDisplay.tsx';
-import { useInterval } from 'usehooks-ts';
 
 const ExchangeForm = observer(() => {
-  useInterval(exchangeStore.updateExchangeRate, 20 * 1000);
+  // Track how many dropdowns are open (if at least one is open, we pause the refetch)
+  const [dropdownOpenCount, setDropdownOpenCount] = useState(0);
+  const isDropdownFocused = dropdownOpenCount > 0;
+
+  const handleDropdownOpen = () => setDropdownOpenCount((count) => count + 1);
+  const handleDropdownClose = () => setDropdownOpenCount((count) => Math.max(count - 1, 0));
+
+  useInterval(() => {
+    if (!isDropdownFocused) {
+      exchangeStore.updateExchangeRate();
+    }
+  }, 20 * 1000);
 
   if (exchangeStore.availableCurrencies.state === 'pending') {
     return <CircularProgress sx={{ margin: '0 auto' }} />;
@@ -52,6 +64,8 @@ const ExchangeForm = observer(() => {
           onChange={exchangeStore.setFromCurrency}
           options={currencyOptions}
           isLoading={exchangeStore.isLoadingRate}
+          onOpen={handleDropdownOpen}
+          onClose={handleDropdownClose}
         />
       </Stack>
 
@@ -87,6 +101,8 @@ const ExchangeForm = observer(() => {
           onChange={exchangeStore.setToCurrency}
           options={currencyOptions}
           isLoading={exchangeStore.isLoadingRate}
+          onOpen={handleDropdownOpen}
+          onClose={handleDropdownClose}
         />
       </Stack>
 
