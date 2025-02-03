@@ -59,8 +59,6 @@ const ExchangeForm = observer(() => {
           isLoading={exchangeStore.isLoadingRate}
           disabled={!isBothCurrencySelected}
         />
-        {dropdownOpenCount}
-        {String(isDropdownFocused)}
         <CurrencyDropdown
           value={exchangeStore.fromCurrency}
           onChange={exchangeStore.setFromCurrency}
